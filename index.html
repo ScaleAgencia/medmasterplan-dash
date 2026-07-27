@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>MedMasterPlan · Dashboard de Captação</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Playfair+Display:ital,wght@1,500;1,600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="styles.css?t=20260727a">
+</head>
+<body>
+<div class="wrap">
+
+  <div class="editband">6ª Edição · Exclusivo para Médicos · Campanha MMP 29–30 AGO</div>
+
+  <header class="top">
+    <div class="brand">
+      <svg class="crown" viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+        <defs><linearGradient id="cg" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0" stop-color="#6ea8ff"/><stop offset="1" stop-color="#1f6fff"/></linearGradient></defs>
+        <path d="M8 22l10 9 14-19 14 19 10-9-4 30H12L8 22z" fill="url(#cg)"/>
+        <rect x="11" y="52" width="42" height="6" rx="2" fill="url(#cg)"/>
+        <circle cx="8" cy="20" r="4" fill="#6ea8ff"/><circle cx="56" cy="20" r="4" fill="#6ea8ff"/><circle cx="32" cy="9" r="4.5" fill="#9cc2ff"/>
+      </svg>
+      <div>
+        <div class="logo"><span class="med">Med</span><span class="master">Master</span><span class="plan">Plan</span></div>
+        <div class="brand-tag">Dashboard de Captação de Leads · Meta Ads</div>
+      </div>
+    </div>
+    <div class="top-right">
+      <div class="updated">Atualizado <b id="updated">—</b><span class="live">● ao vivo</span></div>
+      <div class="periods" id="periods"></div>
+    </div>
+  </header>
+
+  <div class="coverage" id="coverage"></div>
+
+  <nav class="tabs" id="tabs">
+    <button class="tab active" data-tab="funil">Funil &amp; Otimização</button>
+    <button class="tab" data-tab="score">Leadscore A/B</button>
+    <button class="tab" data-tab="perfil">Perfil dos Leads</button>
+  </nav>
+
+  <!-- ============ FUNIL ============ -->
+  <section class="panel-tab" id="tab-funil">
+    <div class="funil-grid">
+      <div class="kpi-col" id="kpiCol"></div>
+      <div class="chart-col">
+        <div class="card"><div class="card-h">Leads x Qualificados por dia <span class="hint">qualificado = Leadscore A + B</span></div><div id="chartLeads"></div></div>
+        <div class="card"><div class="card-h">Investimento x CPL Qualificado por dia <span class="hint">barras = gasto c/ imposto · linha = CPL A+B</span></div><div id="chartInvest"></div></div>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-h">Visão diária <span class="hint">uma linha por dia (mais recente no topo) · cor mais forte = maior no período · CPL e CPM verde (bom) → vermelho (caro)</span></div>
+      <div class="table-scroll"><table class="tbl" id="dailyTbl"></table></div>
+    </div>
+
+    <div class="card">
+      <div class="card-h">Otimização — Campanha › Conjunto › Anúncio
+        <span class="hint">clique numa <b>campanha</b> p/ abrir os conjuntos, e num <b>conjunto</b> p/ abrir os anúncios · veja de onde vêm os leads A e B</span></div>
+      <div class="tree-legend" id="treeLegend"></div>
+      <div class="table-scroll"><table class="tbl tree" id="treeTbl"></table></div>
+    </div>
+  </section>
+
+  <!-- ============ LEADSCORE ============ -->
+  <section class="panel-tab hidden" id="tab-score">
+    <div class="row-2">
+      <div class="card">
+        <div class="card-h">Distribuição por Leadscore <span class="hint">no período</span></div>
+        <div class="score-body">
+          <div id="scoreGauge"></div>
+          <div id="scoreBars" style="flex:1"></div>
+        </div>
+      </div>
+      <div class="card">
+        <div class="card-h">Como o Leadscore é definido <span class="hint">critério do cliente</span></div>
+        <div id="critRules"></div>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-h">Quem são os Qualificados (A + B) <span class="hint">perfil dos leads quentes · base completa</span></div>
+      <div class="row-2" id="qualifBreak"></div>
+    </div>
+
+    <div class="card">
+      <div class="card-h">Ranking de anúncios por Qualificados (A + B) <span class="hint">onde investir para trazer mais lead bom</span></div>
+      <div class="table-scroll"><table class="tbl" id="adRankTbl"></table></div>
+    </div>
+  </section>
+
+  <!-- ============ PERFIL DOS LEADS ============ -->
+  <section class="panel-tab hidden" id="tab-perfil">
+    <div class="card">
+      <div class="card-h">Retrato dos leads <span class="hint">todos os leads reais captados (exclui testes) · base completa</span></div>
+      <div class="verdict" id="verdict"></div>
+    </div>
+
+    <div id="perfilStats"></div>
+
+    <div class="card">
+      <div class="card-h">Termômetro de qualificação</div>
+      <div id="thermo"></div>
+    </div>
+
+    <div class="card">
+      <div class="card-h">Perfil por dimensão <span class="hint">distribuição de TODOS os leads reais</span></div>
+      <div class="row-2" id="perfilDims"></div>
+    </div>
+
+    <div class="card">
+      <div class="card-h">Tráfego pago x Orgânico <span class="hint">de onde vêm os leads e a qualificação de cada fonte</span></div>
+      <div class="table-scroll"><table class="tbl" id="sourceTbl"></table></div>
+    </div>
+  </section>
+
+  <footer class="foot">
+    <span>MedMasterPlan · dados agregados, somente leitura · imposto Meta ×<b id="taxf">1,1385</b> incluso no investimento e nas métricas · leads de teste (UTM com macro, "teste", e-mail interno) são ignorados</span>
+  </footer>
+</div>
+
+<script src="data.js?t=20260727a"></script>
+<script src="app.js?t=20260727a"></script>
+</body>
+</html>
